@@ -5,3 +5,4 @@ def f(st, num):
         gram.append(sts[i:i + num])
     return gram
 print(f("I am an NLPer", 2))
+print("Hello World")
