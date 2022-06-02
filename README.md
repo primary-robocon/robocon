@@ -3,5 +3,5 @@
 
 ## clone
 ```bash
-git clone https://github.com/primary-robocon/robocon  # clone
+git clone https://github.com/primary-robocon/robocon
 ```
