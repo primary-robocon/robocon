@@ -2,9 +2,23 @@
 ろぼ魂チームgithubです。
 
 ## 準備
+
+### clone
 ```bash
 cd workspace
 git clone https://github.com/primary-robocon/robocon
+```
+
+### ユーザー設定
+許可されたユーザーしかcommitができない可能性があるので、以下のユーザー設定を行ってください。なお、登録する情報はアクセスしているgithubアカウントの情報でなければなりません。
+```bash
+git config user.email "メールアドレス"
+git config user.name "ユーザー名"
+```
+
+### 最後に
+最後にすぐに実行できる状態に戻すため、cdで元のディレクトリに戻りましょう。
+```bash
 cd ../
 ```
 
