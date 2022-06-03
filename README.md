@@ -5,7 +5,7 @@
 
 ### clone
 ```bash
-cd workspace
+cd ~/etrobo/workspace
 git clone https://github.com/primary-robocon/robocon
 ```
 
@@ -19,7 +19,7 @@ git config user.name "ユーザー名"
 ### 最後に
 最後にすぐに実行できる状態に戻すため、cdで元のディレクトリに戻りましょう。
 ```bash
-cd ../
+cd ~/etrobo
 ```
 
 ## 実行
@@ -30,6 +30,20 @@ make app=robocon sim up
 対象とするディレクトリを変更しない限りは、下記のコマンドを実行するだけで起動できます。
 ```bash
 make sim up
+```
+
+## gitの操作をする前に
+
+### 最初に
+roboconディレクトリの操作をするため、まずはroboconディレクトリに移動する必要があります。
+```bash
+cd ~/etrobo/workspace/robocon
+```
+
+### 最後に
+以下に記述されている各種操作が終わったら、いつでも実行できるようにするため、元のディレクトリに戻りましょう。
+```bash
+cd ~/etrobo
 ```
 
 ## git 各種操作
@@ -74,6 +88,9 @@ git statusにより、現在レポジトリの状況を調べることができ�
 git status
 ```
 
+## 参考サイト
+[基本操作（clone、add、commit、pushなど）を覚えて、開発出来るようになる](https://www.yoheim.net/blog.php?q=20140104)
+[Gitの基本操作](https://qiita.com/tetsu-upstr/items/ba844bcc353f1a2e8596)
 <!--
 編集者
 杉本
