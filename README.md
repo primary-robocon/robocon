@@ -90,6 +90,16 @@ git statusにより、現在レポジトリの状況を調べることができ�
 git status
 ```
 
+### git checkout
+git checkoutを行うことで、ローカルでの変更を破棄することができます。
+```bash
+git checkout ファイル名
+```
+すべてのファイルをcheckoutしたい場合
+```bash
+git checkout .
+```
+
 ## 参考サイト
 [基本操作（clone、add、commit、pushなど）を覚えて、開発出来るようになる](https://www.yoheim.net/blog.php?q=20140104)
 
