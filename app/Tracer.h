@@ -21,4 +21,6 @@ private:
 #else
   const int8_t pwm = 60;
 #endif
+
+  float calc_prop_value();
 };
