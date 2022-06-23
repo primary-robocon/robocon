@@ -14,19 +14,47 @@ void Tracer::terminate() {
   rightWheel.stop();
 }
 
+void Tracer::motor_set_power(int turn) {
+  int pwm_l = pwm - turn;
+  int pwm_r = pwm + turn;
+  leftWheel.setPWM(pwm_l);
+  rightWheel.setPWM(pwm_r);
+}
+
 float Tracer::calc_prop_value() {
   const float Kp = 0.83;
-  const int target = 10;
+  const float Ki = 0.65;
+  const float Kd = 0.375;
+  const float time = 0.005;
+  // センサの目標値
+  const int target = 20;
+
+  // 常に一定の補正をかけたい場合設定する
   const int bias = 0;
-  int diff = colorSensor.getBrightness() - target;
-  return (Kp * diff + bias);
+
+  // 偏差を計算
+  diff = colorSensor.getBrightness() - target;
+
+  // 偏差の累積地を更新
+  integral += diff * time;
+
+  // 前回偏差との差を計算
+  ddt = diff - diff_prev;
+
+  // 前回偏差を更新
+  diff_prev = diff;
+
+  // 計算した操作量を返却
+  // P制御
+  // return Kp * diff + bias;
+  // PI制御
+  // return Kp * diff + Ki * integral + bias;
+  // PID制御
+  return Kp * diff + Ki * integral + Kd * ddt + bias;
 }
 
 void Tracer::run() {
   msg_f("running...", 1);
   float turn = calc_prop_value();
-  int pwm_l = pwm - turn;
-  int pwm_r = pwm + turn;
-  leftWheel.setPWM(pwm_l);
-  rightWheel.setPWM(pwm_r);
+  motor_set_power(turn);
 }

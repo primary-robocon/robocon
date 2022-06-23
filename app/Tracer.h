@@ -16,11 +16,15 @@ private:
   Motor rightWheel;
   ColorSensor colorSensor; // <3>
   const int8_t mThreshold = 20;  // <4>
+  int diff = 0;
+  int integral = 0;
+  int diff_prev = 0;
+  int ddt = 0;
 #ifndef MAKE_RASPIKE
   const int8_t pwm = (Motor::PWM_MAX) / 6;
 #else
   const int8_t pwm = 60;
 #endif
-
+  void motor_set_power(int turn);
   float calc_prop_value();
 };
