@@ -21,10 +21,10 @@ private:
   int diff_prev = 0;
   int ddt = 0;
 #ifndef MAKE_RASPIKE
-  const int8_t pwm = (Motor::PWM_MAX) / 6;
+  const int8_t pwm = (Motor::PWM_MAX) / 2;
 #else
   const int8_t pwm = 60;
 #endif
-  void motor_set_power(int turn);
+  void motor_set_power(int turn, char way);
   float calc_prop_value();
 };

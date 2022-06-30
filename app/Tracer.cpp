@@ -14,20 +14,28 @@ void Tracer::terminate() {
   rightWheel.stop();
 }
 
-void Tracer::motor_set_power(int turn) {
-  int pwm_l = pwm - turn;
-  int pwm_r = pwm + turn;
+void Tracer::motor_set_power(int turn, char way) {
+  int pwm_l;
+  int pwm_r;
+  if(way == 'r') {
+    pwm_l = pwm - turn;
+    pwm_r = pwm + turn;
+  } else {
+    pwm_l = pwm + turn;
+    pwm_r = pwm - turn;
+  }
+
   leftWheel.setPWM(pwm_l);
   rightWheel.setPWM(pwm_r);
 }
 
 float Tracer::calc_prop_value() {
-  const float Kp = 0.83;
-  const float Ki = 0.65;
-  const float Kd = 0.375;
+  const float Kp = 2;
+  const float Ki = 0.833;
+  const float Kd = 0.4;
   const float time = 0.005;
   // センサの目標値
-  const int target = 20;
+  const int target = 25;
 
   // 常に一定の補正をかけたい場合設定する
   const int bias = 0;
@@ -56,5 +64,5 @@ float Tracer::calc_prop_value() {
 void Tracer::run() {
   msg_f("running...", 1);
   float turn = calc_prop_value();
-  motor_set_power(turn);
+  motor_set_power(turn, 'l');
 }
