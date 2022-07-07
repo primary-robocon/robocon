@@ -14,55 +14,43 @@ void Tracer::terminate() {
   rightWheel.stop();
 }
 
-void Tracer::motor_set_power(int turn, char way) {
-  int pwm_l;
-  int pwm_r;
-  if(way == 'r') {
-    pwm_l = pwm - turn;
-    pwm_r = pwm + turn;
-  } else {
-    pwm_l = pwm + turn;
-    pwm_r = pwm - turn;
-  }
-
+void Tracer::motor_set_power() {
   leftWheel.setPWM(pwm_l);
   rightWheel.setPWM(pwm_r);
 }
 
+void Tracer::right_line_trace(int turn) {
+  pwm_l = pwm - turn;
+  pwm_r = pwm + turn;
+  motor_set_power();
+}
+
+void Tracer::left_line_trace(int turn) {
+  pwm_l = pwm + turn;
+  pwm_r = pwm - turn;
+  motor_set_power();
+}
+
 float Tracer::calc_prop_value() {
-  const float Kp = 2;
-  const float Ki = 0.833;
-  const float Kd = 0.4;
-  const float time = 0.005;
-  // センサの目標値
-  const int target = 25;
-
-  // 常に一定の補正をかけたい場合設定する
-  const int bias = 0;
-
   // 偏差を計算
-  diff = colorSensor.getBrightness() - target;
-
+  diff = colorSensor.getBrightness() - Target;
   // 偏差の累積地を更新
-  integral += diff * time;
-
+  integral += diff * Cycle;
   // 前回偏差との差を計算
   ddt = diff - diff_prev;
-
   // 前回偏差を更新
   diff_prev = diff;
-
   // 計算した操作量を返却
   // P制御
-  // return Kp * diff + bias;
+  // return Kp * diff + Bias;
   // PI制御
-  // return Kp * diff + Ki * integral + bias;
+  // return Kp * diff + Ki * integral + Bias;
   // PID制御
-  return Kp * diff + Ki * integral + Kd * ddt + bias;
+  return Kp * diff + Ki * integral + Kd * ddt + Bias;
 }
 
 void Tracer::run() {
   msg_f("running...", 1);
   float turn = calc_prop_value();
-  motor_set_power(turn, 'l');
+  right_line_trace(turn);
 }
