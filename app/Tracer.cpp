@@ -1,7 +1,7 @@
 #include "Tracer.h" // <1>
 
 Tracer::Tracer():
-  leftWheel(PORT_C), rightWheel(PORT_B), colorSensor(PORT_3) { // <2>
+  leftWheel(PORT_C), rightWheel(PORT_B), steering(leftWheel, rightWheel), colorSensor(PORT_3){ // <2>
   }
 
 void Tracer::init() {
@@ -14,21 +14,12 @@ void Tracer::terminate() {
   rightWheel.stop();
 }
 
-void Tracer::motor_set_power() {
-  leftWheel.setPWM(pwm_l);
-  rightWheel.setPWM(pwm_r);
-}
-
 void Tracer::right_line_trace(int turn) {
-  pwm_l = pwm - turn;
-  pwm_r = pwm + turn;
-  motor_set_power();
+  steering.setPower(pwm, -turn);
 }
 
 void Tracer::left_line_trace(int turn) {
-  pwm_l = pwm + turn;
-  pwm_r = pwm - turn;
-  motor_set_power();
+  steering.setPower(pwm, turn);
 }
 
 float Tracer::calc_prop_value() {
