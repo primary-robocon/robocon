@@ -1,11 +1,15 @@
 #include "Tracer.h" // <1>
 
 Tracer::Tracer():
-  leftWheel(PORT_C), rightWheel(PORT_B), steering(leftWheel, rightWheel), colorSensor(PORT_3){ // <2>
+  leftWheel(PORT_C),
+  rightWheel(PORT_B),
+  steering(leftWheel, rightWheel),
+  colorSensor(PORT_3){ // <2>
   }
 
 void Tracer::init() {
   init_f("Tracer");
+  timer.reset();
 }
 
 void Tracer::terminate() {
@@ -22,9 +26,18 @@ void Tracer::left_line_trace(int turn) {
   steering.setPower(pwm, turn);
 }
 
-float Tracer::calc_prop_value() {
+void Tracer::line_change() {
+  if (timer.now() >= 1 * 1000 * 1000) {
+    timer.reset();
+    line = (line + 1) % 2;
+    is_under_change = false;
+    change_count += 1;
+  }
+}
+
+float Tracer::calc_prop_value(int8_t brightness) {
   // 偏差を計算
-  diff = colorSensor.getBrightness() - Target;
+  diff = brightness - Target;
   // 偏差の累積地を更新
   integral += diff * Cycle;
   // 前回偏差との差を計算
@@ -42,6 +55,19 @@ float Tracer::calc_prop_value() {
 
 void Tracer::run() {
   msg_f("running...", 1);
-  float turn = calc_prop_value();
-  right_line_trace(turn);
+  int8_t brightness = colorSensor.getBrightness();
+  if (is_under_change) {
+    line_change();
+  } else if (brightness <= 10 && change_count < 2) {
+    if (timer.now() >= 6 * 1000 * 1000) {
+      timer.reset();
+      is_under_change = true;
+    }
+  }
+  float turn = calc_prop_value(brightness);
+  if (line == 0) {
+    right_line_trace(turn);
+  } else {
+    left_line_trace(turn);
+  }
 }

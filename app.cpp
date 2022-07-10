@@ -11,8 +11,8 @@ void tracer_task(intptr_t exinf) { // <1>
 }
 
 void main_task(intptr_t unused) { // <1>
+  wait_start();
   tracer.init(); // <3>
-  start_wait();
   sta_cyc(TRACER_CYC); // <4>
   
   //stp_cyc(TRACER_CYC); // <3>
@@ -20,7 +20,7 @@ void main_task(intptr_t unused) { // <1>
   //ext_tsk(); // <5>
 }
 
-void start_wait() {
+void wait_start() {
   Clock clock;
   TouchSensor touch_sensor(PORT_1);
   const uint32_t duration = 10*1000;

@@ -16,7 +16,7 @@ extern "C" {
 extern void main_task(intptr_t exinf);
 extern void tracer_task(intptr_t exinf);
 extern void tracer_cyc(intptr_t exinf);
-void start_wait();
+void wait_start();
 #endif /* TOPPERS_MACRO_ONLY */
 
 #ifdef __cplusplus
