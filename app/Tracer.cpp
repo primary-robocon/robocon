@@ -3,13 +3,11 @@
 Tracer::Tracer():
   leftWheel(PORT_C),
   rightWheel(PORT_B),
-  steering(leftWheel, rightWheel),
-  colorSensor(PORT_3){ // <2>
+  steering(leftWheel, rightWheel){ // <2>
   }
 
 void Tracer::init() {
   init_f("Tracer");
-  timer.reset();
 }
 
 void Tracer::terminate() {
@@ -27,12 +25,7 @@ void Tracer::left_line_trace(int turn) {
 }
 
 void Tracer::line_change() {
-  if (timer.now() >= 1 * 1000 * 1000) {
-    timer.reset();
-    line = (line + 1) % 2;
-    is_under_change = false;
-    change_count += 1;
-  }
+  line = (line + 1) % 2;
 }
 
 float Tracer::calc_prop_value(int8_t brightness) {
@@ -53,17 +46,8 @@ float Tracer::calc_prop_value(int8_t brightness) {
   return Kp * diff + Ki * integral + Kd * ddt + Bias;
 }
 
-void Tracer::run() {
+void Tracer::run(int8_t brightness) {
   msg_f("running...", 1);
-  int8_t brightness = colorSensor.getBrightness();
-  if (is_under_change) {
-    line_change();
-  } else if (brightness <= 10 && change_count < 2) {
-    if (timer.now() >= 6 * 1000 * 1000) {
-      timer.reset();
-      is_under_change = true;
-    }
-  }
   float turn = calc_prop_value(brightness);
   if (line == 0) {
     right_line_trace(turn);

@@ -1,7 +1,5 @@
 #include "Motor.h"       // <1>
-#include "ColorSensor.h" // <2>
 #include "Steering.h"
-#include "Clock.h"
 #include "util.h"        // <3>
 
 using namespace ev3api;  // <4>
@@ -9,16 +7,15 @@ using namespace ev3api;  // <4>
 class Tracer {  // <1>
 public:
   Tracer();
-  void run();       // <2>
+  void run(int8_t brightness);       // <2>
   void init();
   void terminate();
+  void line_change();
 
 private:
   Motor leftWheel;
   Motor rightWheel;
   Steering steering;
-  ColorSensor colorSensor; // <3>
-  Clock timer;
   //const float Kp = 2.5;
   //const float Ki = 0.2;
   //const float Kd = 15;
@@ -37,8 +34,6 @@ private:
   int ddt = 0;
   int pwm_l, pwm_r;
   int line = 0;
-  bool is_under_change = false;
-  int8_t change_count = 0;
 #ifndef MAKE_RASPIKE
   //const int8_t pwm = (Motor::PWM_MAX) / 3;
   const int8_t pwm = (Motor::PWM_MAX) / 1.5;
@@ -48,5 +43,4 @@ private:
   float calc_prop_value(int8_t brightness);
   void right_line_trace(int turn);
   void left_line_trace(int turn);
-  void line_change();
 };
