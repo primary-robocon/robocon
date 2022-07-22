@@ -4,6 +4,7 @@ APPL_COBJS +=
 
 APPL_CXXOBJS += \
 util.o \
+MySteering.o \
 Tracer.o
 
 SRCLANG := c++

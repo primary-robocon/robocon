@@ -1,41 +1,36 @@
-#include "Motor.h"       // <1>
-#include "Steering.h"
+#ifndef _TRACER_H_
+#define _TRACER_H_
+
+#include "MySteering.h"
 #include "util.h"        // <3>
 
 using namespace ev3api;  // <4>
 
 class Tracer {  // <1>
 public:
-  Tracer();
+  Tracer(MySteering& steer);
   void run(int8_t brightness);       // <2>
   void init();
   void terminate();
   void line_change();
 
 private:
-  Motor leftWheel;
-  Motor rightWheel;
-  Steering steering;
-  //const float Kp = 2.5;
-  //const float Ki = 0.2;
-  //const float Kd = 15;
-  const float Kp = 6.25;
-  const float Ki = 0.0125;
-  const float Kd = 6.25;
-  const float Cycle = 0.005;
+  MySteering& steering;
+  const float Kp;
+  const float Ki;
+  const float Kd;
+  const float Cycle;
   // センサの目標値
-  //const float Target = 10;
-  const float Target = 20;
+  const float Target;
   // 常に一定の補正をかけたい場合設定する
-  const int Bias = 0;
-  int diff = 0;
-  float integral = 0;
-  int diff_prev = 0;
-  int ddt = 0;
-  int pwm_l, pwm_r;
-  int line = 0;
+  const int Bias;
+
+  int diff;
+  float integral;
+  int diff_prev;
+  int ddt;
+  int line;
 #ifndef MAKE_RASPIKE
-  //const int8_t pwm = (Motor::PWM_MAX) / 3;
   const int8_t pwm = (Motor::PWM_MAX) / 1.5;
 #else
   const int8_t pwm = 60;
@@ -44,3 +39,5 @@ private:
   void right_line_trace(int turn);
   void left_line_trace(int turn);
 };
+
+#endif

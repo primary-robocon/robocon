@@ -1,9 +1,22 @@
 #include "Tracer.h" // <1>
 
-Tracer::Tracer():
-  leftWheel(PORT_C),
-  rightWheel(PORT_B),
-  steering(leftWheel, rightWheel){ // <2>
+Tracer::Tracer(MySteering& steer):
+  steering(steer),
+  Kp(6.25),
+  Ki(0.0125),
+  Kd(6.25),
+  // 処理周期
+  Cycle(0.004),
+  // センサの目標値
+  Target(20),
+  // 常に一定の補正をかけたい場合設定する
+  Bias(0)
+  { 
+    diff = 0;
+    integral = 0;
+    diff_prev = 0;
+    ddt = 0;
+    line = 0;
   }
 
 void Tracer::init() {
@@ -12,8 +25,7 @@ void Tracer::init() {
 
 void Tracer::terminate() {
   msg_f("Stopped.", 1);
-  leftWheel.stop();  // <1>
-  rightWheel.stop();
+  steering.stop();
 }
 
 void Tracer::right_line_trace(int turn) {

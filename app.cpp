@@ -4,10 +4,12 @@
 #include "TouchSensor.h"
 #include "ColorSensor.h"
 #include "GyroSensor.h"
+#include "MySteering.h"
 using namespace ev3api;
 
 Clock clock;
-Tracer tracer;  // <4>
+MySteering steering;
+Tracer tracer(steering);  // <4>
 ColorSensor colorSensor(PORT_3);
 TouchSensor touch_sensor(PORT_1);
 
