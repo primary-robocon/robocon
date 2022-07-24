@@ -19,6 +19,7 @@ private:
   const float Kp;
   const float Ki;
   const float Kd;
+  // 処理周期
   const float Cycle;
   // センサの目標値
   const float Target;

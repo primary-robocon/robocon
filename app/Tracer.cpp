@@ -5,11 +5,8 @@ Tracer::Tracer(MySteering& steer):
   Kp(6.25),
   Ki(0.0125),
   Kd(6.25),
-  // 処理周期
   Cycle(0.004),
-  // センサの目標値
   Target(20),
-  // 常に一定の補正をかけたい場合設定する
   Bias(0)
   { 
     diff = 0;

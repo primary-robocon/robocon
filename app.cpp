@@ -1,23 +1,20 @@
 #include "app.h" // <1>
 #include "Tracer.h" // <2>
 #include "Clock.h"  // <3>
-#include "TouchSensor.h"
-#include "ColorSensor.h"
-#include "GyroSensor.h"
 #include "MySteering.h"
+#include "MySensor.h"
 using namespace ev3api;
 
 Clock clock;
 MySteering steering;
 Tracer tracer(steering);  // <4>
-ColorSensor colorSensor(PORT_3);
-TouchSensor touch_sensor(PORT_1);
+MySensor mySensor;
 
 int8_t change_count = 0;
 int8_t is_change = 0;
 
 void tracer_task(intptr_t exinf) { // <1>
-  int8_t brightness = colorSensor.getBrightness();
+  int8_t brightness = mySensor.getBrightness();
   if (brightness <= 10 && change_count < 2) {
     if (clock.now() >= 6 * 1000 * 1000) {
       clock.reset();
@@ -44,7 +41,7 @@ void main_task(intptr_t unused) { // <1>
 
 void wait_start() {
   const uint32_t duration = 10*1000;
-  while (!touch_sensor.isPressed()) {
+  while (!mySensor.isPressed()) {
     clock.sleep(duration);
   }
 }
