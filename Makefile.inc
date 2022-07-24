@@ -7,6 +7,7 @@ util.o \
 MySteering.o \
 MySensor.o \
 Distance.o \
+Grid.o \
 Tracer.o
 
 SRCLANG := c++

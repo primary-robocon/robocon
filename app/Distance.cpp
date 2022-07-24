@@ -2,9 +2,7 @@
 
 Distance::Distance(MySteering& steer):
   steering(steer),
-  // 円周率
-  Pi(3.14159265358),
-  // タイヤ直径（81mm）
+  // タイヤ直径（100mm）
   TireDiameter(100.0)
   {
     distance = 0.0;
@@ -25,8 +23,8 @@ void Distance::update(){
   float distance4ms = 0.0;
 
   // 4ms間の走行距離 = ((円周率 * タイヤの直径) / 360) * (モータ角度過去値　- モータ角度現在値)
-  distance4msL = ((Pi * TireDiameter) / 360) * (cur_angleL - pre_angleL);  // 4ms間の左モータ距離
-  distance4msR = ((Pi * TireDiameter) / 360) * (cur_angleR - pre_angleR);  // 4ms間の右モータ距離
+  distance4msL = ((PI * TireDiameter) / 360) * (cur_angleL - pre_angleL);  // 4ms間の左モータ距離
+  distance4msR = ((PI * TireDiameter) / 360) * (cur_angleR - pre_angleR);  // 4ms間の右モータ距離
   distance4ms = (distance4msL + distance4msR) / 2; //左右タイヤの走行距離を足して割る
   distance += distance4ms;
 

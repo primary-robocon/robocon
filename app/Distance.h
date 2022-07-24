@@ -3,6 +3,9 @@
 
 #include "MySteering.h"
 
+// 円周率
+#define PI 3.14159265358
+
 class Distance {  // <1>
 public:
   explicit Distance(MySteering& steer);
@@ -17,8 +20,6 @@ public:
 
 private:
   MySteering& steering;
-  // 円周率
-  const float Pi;
   // タイヤ直径
   const float TireDiameter;
   // 走行距離
